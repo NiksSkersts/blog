@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Post>
+<ul>Jaunākie raksti:
+    @foreach (var _post in Model)
+    {
+        <li class="work-list">@_post.Date.ToLongDateString() - <a href="Blog/Expanded/@_post.IdPost"><span class="tooltip-span" data-tooltip tabindex="1" title="@_post.Description">@_post.Title</span></a></li>
+    }
+    <li class="work-list"><a href="/Blog/Index/0">Parādīt visus!</a></li>
+</ul>

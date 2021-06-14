@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Post>
+<div class="card">
+    <h1>Ieraksti</h1>
+    <ul>
+        @foreach (var post in Model.Where(p=>p.Published).GroupBy(p=>p.Date.Year))
+        {
+            <h2>@post.Key</h2>
+            @foreach (var item in post.OrderByDescending(p=>p.Date))
+            {
+                <li>@item.Date.ToLongDateString() - <a href="~/Blog/Expanded/@item.IdPost">@item.Title</a></li>
+            }
+            
+        }
+    </ul>
+</div>

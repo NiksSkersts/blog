@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Post>
+<div class="card small-12">@{await Html.RenderPartialAsync("AboutMe", Model.Single(p=>p.IdPost==9));}</div>
+<div id="down" class="card small-12 medium-5 large-5">@{ await Html.RenderPartialAsync("Work", Model.Where(post=>post.Published).OrderByDescending(p=>p.Date).Take(5));}</div>
+<div class="card small-12 medium-5 large-5">@{ await Html.RenderPartialAsync("Topics", Model.Where(post=>post.Published).Select(p=>p));}</div>
+@if (Model.Where(p => p.IdPictureNavigation.IdPicture != 0).Select(p => p.IdPictureNavigation.SourcePreview).Any())
+{
+    <div class="card small-12" >
+        @{ await Html.RenderPartialAsync("PostPreview", Model.Where(p => p.IdPictureNavigation.IdPicture != 0).Take(4)); }
+    </div>
+}
+<div id="to-gallery" class="card float-center">@{ await Html.RenderPartialAsync("ToGallery");}</div>
