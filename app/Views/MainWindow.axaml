@@ -8,14 +8,12 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="raftypoile.id.lv">
     <Design.DataContext>
-        <vm:VMPosts/>
+        <vm:VmPosts/>
     </Design.DataContext>
     <Window.Resources>
         <ResourceDictionary>
             <SolidColorBrush x:Key="ColorAqua" Color="Aqua"></SolidColorBrush>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*,*,*">
-        <Canvas Grid.RowSpan="2" Grid.Column="1" Background="{DynamicResource ColorAqua}"></Canvas>
-    </Grid>
+    <DataGrid Items="{Binding Data.Items}" AutoGenerateColumns="True"></DataGrid>
 </Window>

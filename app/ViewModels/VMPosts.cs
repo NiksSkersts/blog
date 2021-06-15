@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using app.Models;
 using DynamicData.Binding;
+using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 
 namespace app.ViewModels
 {
-    public class VMPosts : ViewModelBase
+    public class VmPosts : ViewModelBase
     {
-        private raftypoileidlvContext _Context;
-        public IEnumerable<Post> Data => LoadData();
-
-        private IEnumerable<Post> LoadData()
+        public ObservableCollection<Post> Data => LoadData();
+        private ObservableCollection<Post> LoadData()
         {
-            using raftypoileidlvContext context = new();
-            _Context = context;
-            _Context.Posts.Load();
-            return _Context.Posts.Select(p=>p);
+            using (db = new raftypoileidlvContext())
+            {
+                db.Posts.Load();
+                return new ObservableCollection<Post>(db.Posts);   
+            }
         }
     }
 }
