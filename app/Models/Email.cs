@@ -13,6 +13,9 @@ namespace app.Models
         }
 
         public long IdEmail { get; set; }
+        /// <summary>
+        /// email from app
+        /// </summary>
         public string Email1 { get; set; }
 
         public virtual ICollection<Author> Authors { get; set; }

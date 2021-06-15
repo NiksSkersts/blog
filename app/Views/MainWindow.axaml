@@ -6,13 +6,16 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="app.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="app">
-
+        Title="raftypoile.id.lv">
     <Design.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:VMPosts/>
     </Design.DataContext>
-    <StackPanel>
-        <DataGrid AutoGenerateColumns="True" Items="{Binding Data.Items}" ></DataGrid>
-    </StackPanel>
-    
+    <Window.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="ColorAqua" Color="Aqua"></SolidColorBrush>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*,*,*">
+        <Canvas Grid.RowSpan="2" Grid.Column="1" Background="{DynamicResource ColorAqua}"></Canvas>
+    </Grid>
 </Window>

@@ -1,7 +1,7 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "raftypoile", "raftypoile\raftypoile.csproj", "{527C4240-401A-4145-8E88-D691F67292AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "app", "app\app.csproj", "{3BA3F1FD-51BF-4394-A3DC-1972C710AA03}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "app", "app\app.csproj", "{8052B04F-A5D8-4648-BF8C-8D9AA974AE26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +13,10 @@ Global
 		{527C4240-401A-4145-8E88-D691F67292AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{527C4240-401A-4145-8E88-D691F67292AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{527C4240-401A-4145-8E88-D691F67292AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3BA3F1FD-51BF-4394-A3DC-1972C710AA03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BA3F1FD-51BF-4394-A3DC-1972C710AA03}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3BA3F1FD-51BF-4394-A3DC-1972C710AA03}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3BA3F1FD-51BF-4394-A3DC-1972C710AA03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8052B04F-A5D8-4648-BF8C-8D9AA974AE26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8052B04F-A5D8-4648-BF8C-8D9AA974AE26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8052B04F-A5D8-4648-BF8C-8D9AA974AE26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8052B04F-A5D8-4648-BF8C-8D9AA974AE26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

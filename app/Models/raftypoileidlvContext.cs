@@ -1,10 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 
 #nullable disable
 
-namespace raftypoile.Models
+namespace app.Models
 {
     public partial class raftypoileidlvContext : DbContext
     {
@@ -26,6 +29,16 @@ namespace raftypoile.Models
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<SocialMediaRef> SocialMediaRefs { get; set; }
         public virtual DbSet<SocialMedium> SocialMedia { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json")
+                    .Build();
+                optionsBuilder.UseNpgsql(configuration.GetConnectionString("Default"));
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

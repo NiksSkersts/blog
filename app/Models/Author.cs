@@ -16,6 +16,9 @@ namespace app.Models
         public long IdAuthor { get; set; }
         public string Name { get; set; }
         public long IdEmail { get; set; }
+        /// <summary>
+        /// Author Pic
+        /// </summary>
         public long IdPicture { get; set; }
         public long IdDocument { get; set; }
 

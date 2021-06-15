@@ -1,4 +1,3 @@
-using app.Models;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
