@@ -15,10 +15,10 @@ namespace app.ViewModels
         public ObservableCollection<Post> Data => LoadData();
         private ObservableCollection<Post> LoadData()
         {
-            using (db = new raftypoileidlvContext())
+            using (Db = new raftypoileidlvContext())
             {
-                db.Posts.Load();
-                return new ObservableCollection<Post>(db.Posts);   
+                Db.Posts.Load();
+                return new ObservableCollection<Post>(Db.Posts);   
             }
         }
     }
