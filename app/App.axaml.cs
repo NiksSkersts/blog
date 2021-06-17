@@ -1,7 +1,8 @@
+using app.Models;
+using app.ViewModels;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using app.ViewModels;
 using app.Views;
 
 namespace app
@@ -19,7 +20,7 @@ namespace app
             {
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new VmPosts(),
+                    DataContext = new Posts()
                 };
             }
 

@@ -17,8 +17,5 @@ namespace app.Models
         /// href to social media account
         /// </summary>
         public string Href { get; set; }
-
-        public virtual Author IdAuthorNavigation { get; set; }
-        public virtual SocialMedium IdSocialMediaNavigation { get; set; }
     }
 }

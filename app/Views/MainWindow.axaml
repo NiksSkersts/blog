@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:app.ViewModels"
+        xmlns:models="using:app.Models"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -8,15 +9,21 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="raftypoile.id.lv">
         <Design.DataContext>
-                <vm:VmPosts></vm:VmPosts>
+                <vm:Posts/>
         </Design.DataContext>
-        <Grid RowDefinitions="*" ColumnDefinitions="Auto,*">
-                <TabControl TabStripPlacement="Left">
+        <Grid RowDefinitions="Auto,*,*,*,*,*,*" ColumnDefinitions="Auto,*">
+                <TabStrip Grid.ColumnSpan="1">
+                        <Button Name="BtnSave" Content="Save"></Button>
+                        <Button Name="BtnAdd" Content="Add New"></Button>
+                </TabStrip>
+                <TabControl Name="MainStrip" Grid.ColumnSpan="1" Grid.Column="0" Grid.RowSpan="5" Grid.Row="1" TabStripPlacement="Left">
                         <TabItem Header="Posts">
-                                <DataGrid x:Name="GridPosts" Items="{Binding Data.Items}" AutoGenerateColumns="True"></DataGrid>
+                                <DataGrid x:Name="GridPosts" Items="{Binding _Posts,Mode=TwoWay}" AutoGenerateColumns="True"></DataGrid>
                         </TabItem>
                         <TabItem Header="Pictures">
-                                <DataGrid x:Name="GridPictures" Items="{Binding Data.Items}" AutoGenerateColumns="True"></DataGrid>
+                                <StackPanel>
+                                        <DataGrid x:Name="GridPictures" AutoGenerateColumns="True"></DataGrid>
+                                </StackPanel>
                         </TabItem>
                 </TabControl>
         </Grid>

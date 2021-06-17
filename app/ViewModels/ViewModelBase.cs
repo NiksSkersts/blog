@@ -8,6 +8,6 @@ namespace app.ViewModels
 {
     public class ViewModelBase : ReactiveObject
     {
-        public raftypoileidlvContext Db;
+        public static raftypoileidlvContext Db = new();
     }
 }

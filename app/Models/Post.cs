@@ -25,9 +25,5 @@ namespace app.Models
         public long IdPicture { get; set; }
         public DateOnly Date { get; set; }
         public bool Published { get; set; }
-
-        public virtual Author IdAuthorNavigation { get; set; }
-        public virtual Category IdCatNavigation { get; set; }
-        public virtual Picture IdPictureNavigation { get; set; }
     }
 }

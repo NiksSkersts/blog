@@ -7,11 +7,6 @@ namespace app.Models
 {
     public partial class SocialMedium
     {
-        public SocialMedium()
-        {
-            SocialMediaRefs = new HashSet<SocialMediaRef>();
-        }
-
         public long IdSocialMedia { get; set; }
         /// <summary>
         /// name of social media
@@ -25,7 +20,5 @@ namespace app.Models
         /// from font-awesome
         /// </summary>
         public string Icon { get; set; }
-
-        public virtual ICollection<SocialMediaRef> SocialMediaRefs { get; set; }
     }
 }
