@@ -1,9 +1,7 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
 
 #nullable disable
 
@@ -34,9 +32,8 @@ namespace app.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json")
-                    .Build();
-                optionsBuilder.UseNpgsql(configuration.GetConnectionString("Default"));
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseNpgsql("");
             }
         }
 
@@ -49,7 +46,7 @@ namespace app.Models
                 entity.HasKey(e => e.IdAuthor)
                     .HasName("authors_pk");
 
-                entity.ToTable("authors", "Blog");
+                entity.ToTable("authors", "Testing");
 
                 entity.Property(e => e.IdAuthor).HasColumnName("id_author");
 
@@ -64,21 +61,6 @@ namespace app.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
-
-                entity.HasOne(d => d.IdDocumentNavigation)
-                    .WithMany(p => p.Authors)
-                    .HasForeignKey(d => d.IdDocument)
-                    .HasConstraintName("to_documents");
-
-                entity.HasOne(d => d.IdEmailNavigation)
-                    .WithMany(p => p.Authors)
-                    .HasForeignKey(d => d.IdEmail)
-                    .HasConstraintName("to_emails");
-
-                entity.HasOne(d => d.IdPictureNavigation)
-                    .WithMany(p => p.Authors)
-                    .HasForeignKey(d => d.IdPicture)
-                    .HasConstraintName("authors_fk");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -86,7 +68,7 @@ namespace app.Models
                 entity.HasKey(e => e.IdCategory)
                     .HasName("categories_pk");
 
-                entity.ToTable("categories", "Blog");
+                entity.ToTable("categories", "Testing");
 
                 entity.Property(e => e.IdCategory)
                     .HasColumnName("id_category")
@@ -107,7 +89,7 @@ namespace app.Models
                 entity.HasKey(e => e.IdDocument)
                     .HasName("documents_pk");
 
-                entity.ToTable("documents", "Blog");
+                entity.ToTable("documents", "Testing");
 
                 entity.Property(e => e.IdDocument).HasColumnName("id_document");
 
@@ -126,11 +108,6 @@ namespace app.Models
                 entity.Property(e => e.Source)
                     .IsRequired()
                     .HasColumnName("source");
-
-                entity.HasOne(d => d.IdDocumentTypeNavigation)
-                    .WithMany(p => p.Documents)
-                    .HasForeignKey(d => d.IdDocumentType)
-                    .HasConstraintName("documents_fk");
             });
 
             modelBuilder.Entity<DocumentType>(entity =>
@@ -138,7 +115,7 @@ namespace app.Models
                 entity.HasKey(e => e.IdDocumentType)
                     .HasName("document_types_pk");
 
-                entity.ToTable("document_types", "Blog");
+                entity.ToTable("document_types", "Testing");
 
                 entity.Property(e => e.IdDocumentType).HasColumnName("id_document_type");
 
@@ -152,7 +129,7 @@ namespace app.Models
                 entity.HasKey(e => e.IdEmail)
                     .HasName("emails_pk");
 
-                entity.ToTable("emails", "Blog");
+                entity.ToTable("emails", "Testing");
 
                 entity.Property(e => e.IdEmail)
                     .HasColumnName("id_email")
@@ -170,7 +147,7 @@ namespace app.Models
                 entity.HasKey(e => e.IdPicture)
                     .HasName("pictures_pk");
 
-                entity.ToTable("pictures", "Blog");
+                entity.ToTable("pictures", "Testing");
 
                 entity.Property(e => e.IdPicture)
                     .HasColumnName("id_picture")
@@ -190,11 +167,6 @@ namespace app.Models
                 entity.Property(e => e.SourceOriginal).HasColumnName("source_original");
 
                 entity.Property(e => e.SourcePreview).HasColumnName("source_preview");
-
-                entity.HasOne(d => d.IdCategoryNavigation)
-                    .WithMany(p => p.Pictures)
-                    .HasForeignKey(d => d.IdCategory)
-                    .HasConstraintName("pictures_fk");
             });
 
             modelBuilder.Entity<Post>(entity =>
@@ -202,7 +174,7 @@ namespace app.Models
                 entity.HasKey(e => e.IdPost)
                     .HasName("posts_pk");
 
-                entity.ToTable("posts", "Blog");
+                entity.ToTable("posts", "Testing");
 
                 entity.Property(e => e.IdPost).HasColumnName("id_post");
 
@@ -233,21 +205,6 @@ namespace app.Models
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasColumnName("title");
-
-                entity.HasOne(d => d.IdAuthorNavigation)
-                    .WithMany(p => p.Posts)
-                    .HasForeignKey(d => d.IdAuthor)
-                    .HasConstraintName("to_auth");
-
-                entity.HasOne(d => d.IdCatNavigation)
-                    .WithMany(p => p.Posts)
-                    .HasForeignKey(d => d.IdCat)
-                    .HasConstraintName("to_cat");
-
-                entity.HasOne(d => d.IdPictureNavigation)
-                    .WithMany(p => p.Posts)
-                    .HasForeignKey(d => d.IdPicture)
-                    .HasConstraintName("to_pic");
             });
 
             modelBuilder.Entity<SocialMediaRef>(entity =>
@@ -255,7 +212,7 @@ namespace app.Models
                 entity.HasKey(e => e.IdSocialMediaRef)
                     .HasName("social_media_refs_pk");
 
-                entity.ToTable("social_media_refs", "Blog");
+                entity.ToTable("social_media_refs", "Testing");
 
                 entity.Property(e => e.IdSocialMediaRef).HasColumnName("id_social_media_ref");
 
@@ -269,16 +226,6 @@ namespace app.Models
                 entity.Property(e => e.IdSocialMedia)
                     .HasColumnName("id_social_media")
                     .HasComment("social media name");
-
-                entity.HasOne(d => d.IdAuthorNavigation)
-                    .WithMany(p => p.SocialMediaRefs)
-                    .HasForeignKey(d => d.IdAuthor)
-                    .HasConstraintName("to_authors");
-
-                entity.HasOne(d => d.IdSocialMediaNavigation)
-                    .WithMany(p => p.SocialMediaRefs)
-                    .HasForeignKey(d => d.IdSocialMedia)
-                    .HasConstraintName("to_social_media");
             });
 
             modelBuilder.Entity<SocialMedium>(entity =>
@@ -286,7 +233,7 @@ namespace app.Models
                 entity.HasKey(e => e.IdSocialMedia)
                     .HasName("social_media_pk");
 
-                entity.ToTable("social_media", "Blog");
+                entity.ToTable("social_media", "Testing");
 
                 entity.Property(e => e.IdSocialMedia).HasColumnName("id_social_media");
 

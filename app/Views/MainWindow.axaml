@@ -18,11 +18,12 @@
                 </TabStrip>
                 <TabControl Name="MainStrip" Grid.ColumnSpan="1" Grid.Column="0" Grid.RowSpan="5" Grid.Row="1" TabStripPlacement="Left">
                         <TabItem Header="Posts">
-                                <DataGrid x:Name="GridPosts" Items="{Binding _Posts,Mode=TwoWay}" AutoGenerateColumns="True"></DataGrid>
+                                <DataGrid x:Name="GridPosts" Items="{Binding,Mode=TwoWay}">
+                                </DataGrid>
                         </TabItem>
                         <TabItem Header="Pictures">
                                 <StackPanel>
-                                        <DataGrid x:Name="GridPictures" AutoGenerateColumns="True"></DataGrid>
+                                        <DataGrid Items="{Binding _Pictures}" x:Name="GridPictures"></DataGrid>
                                 </StackPanel>
                         </TabItem>
                 </TabControl>
