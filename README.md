@@ -12,4 +12,5 @@ Database Structure:
 Database creation file: 
 [db_create.sql](database/db_create.sql)
 
-
+Disclaimer: login_data is meant to provide basic login capability. [not yet implemented - subject to change]  
+PS: Todo list can be found at [todo.md](todo.md)
