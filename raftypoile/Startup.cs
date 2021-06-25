@@ -1,14 +1,15 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 
 namespace raftypoile
 {
     public class Startup
     {
+        readonly static string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -22,6 +23,8 @@ namespace raftypoile
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
+            app.UseResponseCaching();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
@@ -41,8 +44,22 @@ namespace raftypoile
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Models.raftypoileidlvContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("Default")));
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("https://raftypoile.id.lv").AllowAnyMethod().AllowAnyHeader();
+                                  });
+            });
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            //services.AddHttpContextAccessor();
+            services.AddDbContext<Models.Main.mainContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Default")));
             services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddMvc().AddRazorRuntimeCompilation();
