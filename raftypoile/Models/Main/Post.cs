@@ -20,7 +20,7 @@ namespace raftypoile.Models.Main
         /// Mainly for Hero/Header picture
         /// </summary>
         public long IdPicture { get; set; }
-        public DateOnly Date { get; set; }
+        public DateTime Date { get; set; }
         public bool Published { get; set; }
 
         public virtual Category IdCatNavigation { get; set; }

@@ -8,7 +8,7 @@ namespace raftypoile.Models.Main
         public Guid IdUser { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public DateOnly AccountCreated { get; set; }
+        public DateTime AccountCreated { get; set; }
 
         public virtual User IdUserNavigation { get; set; }
     }
