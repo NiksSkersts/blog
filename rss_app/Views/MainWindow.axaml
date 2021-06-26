@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:rss_app.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="rss_app.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="rss_app">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    <Grid>
+        <Grid Name="GridLogin" IsVisible="{Binding Path=NotLoggedIn, Mode=TwoWay}" ShowGridLines="True" Grid.RowDefinitions="*,*,*,*,*,*,*,*" Grid.ColumnDefinitions="*,*,*,*,*,*,*">
+            <Label Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Username:"></Label>
+            <Label Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Password:"></Label>
+            <TextBox Text="{Binding UserName}" Name="TbUsername" Grid.Row="2" Grid.Column="3" ></TextBox>
+            <TextBox Text="{Binding Password}" Name="TbPassword" Grid.Row="3" Grid.Column="3"></TextBox>
+            <Button Grid.Row="4" Grid.Column="3" Content="Log-in" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_OnClick"></Button>
+        </Grid>
+        <Grid IsVisible="{Binding !NotLoggedIn}" Grid.RowDefinitions="*,*,*,*,*,*,*,*" Grid.ColumnDefinitions="*,*,*,*,*,*,*">
+        </Grid>
+        
+    </Grid>
+
+</Window>
