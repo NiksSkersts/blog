@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace raftypoile.Models.Main
 {
     public partial class User
@@ -17,13 +19,7 @@ namespace raftypoile.Models.Main
         public Guid IdUser { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        /// <summary>
-        /// Main email
-        /// </summary>
         public long IdEmail { get; set; }
-        /// <summary>
-        /// Author Pic
-        /// </summary>
         public long IdPicture { get; set; }
 
         public virtual Email IdEmailNavigation { get; set; }

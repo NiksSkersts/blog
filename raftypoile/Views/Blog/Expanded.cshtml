@@ -1,5 +1,5 @@
 ﻿@model Post
-@if (Model.IdPicture != 0)
+@if (Model.IdPicture != null)
 {
     <img class="expanded-pic" alt="@Model.IdPictureNavigation.AlternativeText" src="@Model.IdPictureNavigation.SourceHeader">
 }

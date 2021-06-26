@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
 
 namespace raftypoile.Models.Main
 {
-    //login_data is now LoginDatum. Hmpfh! Not that it matters.
     public partial class LoginDatum
     {
         public Guid IdUser { get; set; }

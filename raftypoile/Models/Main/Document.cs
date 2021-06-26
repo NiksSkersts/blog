@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
 
 namespace raftypoile.Models.Main
 {
@@ -9,13 +12,7 @@ namespace raftypoile.Models.Main
         public string Name { get; set; }
         public string Description { get; set; }
         public long IdDocumentType { get; set; }
-        /// <summary>
-        /// Pieejams publiski?
-        /// </summary>
         public bool Published { get; set; }
-        /// <summary>
-        /// Dokumenta ievietotājs,. autors u.t.t
-        /// </summary>
         public Guid IdUser { get; set; }
 
         public virtual DocumentType IdDocumentTypeNavigation { get; set; }

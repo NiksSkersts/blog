@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
 
 namespace raftypoile.Models.Main
 {
@@ -6,13 +9,7 @@ namespace raftypoile.Models.Main
     {
         public long IdSocialMediaRef { get; set; }
         public Guid IdUser { get; set; }
-        /// <summary>
-        /// social media name
-        /// </summary>
         public long IdSocialMedia { get; set; }
-        /// <summary>
-        /// href to social media account
-        /// </summary>
         public string Href { get; set; }
 
         public virtual SocialMedium IdSocialMediaNavigation { get; set; }

@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+
+#nullable disable
 
 namespace raftypoile.Models.Main
 {
@@ -26,10 +30,10 @@ namespace raftypoile.Models.Main
         public virtual DbSet<SocialMediaRef> SocialMediaRefs { get; set; }
         public virtual DbSet<SocialMedium> SocialMedia { get; set; }
         public virtual DbSet<User> Users { get; set; }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasPostgresExtension("pg_catalog", "uuid-ossp")
+            modelBuilder.HasPostgresExtension("uuid-ossp")
                 .HasAnnotation("Relational:Collation", "en_US.UTF-8");
 
             modelBuilder.Entity<Category>(entity =>
@@ -119,7 +123,8 @@ namespace raftypoile.Models.Main
                 entity.Property(e => e.Email1)
                     .IsRequired()
                     .HasColumnType("character varying")
-                    .HasColumnName("email");
+                    .HasColumnName("email")
+                    .HasComment("email from app");
             });
 
             modelBuilder.Entity<Feed>(entity =>
@@ -129,9 +134,7 @@ namespace raftypoile.Models.Main
 
                 entity.ToTable("feed", "Main");
 
-                entity.Property(e => e.IdFeed)
-                    .HasColumnName("id_feed")
-                    .HasDefaultValueSql("nextval('\"Main\".feed_id_seq'::regclass)");
+                entity.Property(e => e.IdFeed).HasColumnName("id_feed");
 
                 entity.Property(e => e.FeedName)
                     .IsRequired()
@@ -149,6 +152,7 @@ namespace raftypoile.Models.Main
                 entity.Property(e => e.IdUser).HasColumnName("id_user");
 
                 entity.Property(e => e.Timestamp)
+                    .HasColumnType("date")
                     .HasColumnName("timestamp")
                     .HasDefaultValueSql("now()");
 
@@ -196,6 +200,7 @@ namespace raftypoile.Models.Main
                     .HasColumnName("id_user");
 
                 entity.Property(e => e.AccountCreated)
+                    .HasColumnType("date")
                     .HasColumnName("account_created")
                     .HasDefaultValueSql("now()");
 
@@ -259,6 +264,7 @@ namespace raftypoile.Models.Main
                     .HasComment("HTML code");
 
                 entity.Property(e => e.Date)
+                    .HasColumnType("date")
                     .HasColumnName("date")
                     .HasDefaultValueSql("now()");
 
@@ -270,6 +276,7 @@ namespace raftypoile.Models.Main
 
                 entity.Property(e => e.IdPicture)
                     .HasColumnName("id_picture")
+                    .HasDefaultValueSql("0")
                     .HasComment("Mainly for Hero/Header picture");
 
                 entity.Property(e => e.IdUser)
@@ -290,6 +297,7 @@ namespace raftypoile.Models.Main
                 entity.HasOne(d => d.IdPictureNavigation)
                     .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.IdPicture)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("to_pic");
 
                 entity.HasOne(d => d.IdUserNavigation)
@@ -305,9 +313,7 @@ namespace raftypoile.Models.Main
 
                 entity.ToTable("quotes", "Main");
 
-                entity.Property(e => e.IdQuote)
-                    .HasColumnName("id_quote")
-                    .HasDefaultValueSql("nextval('\"Main\".quotes_id_seq'::regclass)");
+                entity.Property(e => e.IdQuote).HasColumnName("id_quote");
 
                 entity.Property(e => e.Author)
                     .HasColumnType("character varying")
