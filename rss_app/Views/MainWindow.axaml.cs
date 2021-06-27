@@ -68,16 +68,23 @@ namespace rss_app.Views
 
         private async void Button_OnClick(object? sender, RoutedEventArgs e)
         {
-            ShowLoading();
+            ShowLoadingScreen();
             await Task.Delay(100);
             await PopulateListView();
+            EndLoadingScreen();
         }
 
-        private void ShowLoading()
+        private void EndLoadingScreen()
         {
+            _loadingScreen.IsVisible = false;
+            _rssScreen.IsVisible = true;
+        }
+
+        private void ShowLoadingScreen()
+        {
+            _rssScreen.IsVisible = false;
             _loginScreen.IsVisible = false;
             _loadingScreen.IsVisible = true;
-            
         }
 
         private async Task GetFeedsFromService()
@@ -89,15 +96,12 @@ namespace rss_app.Views
                 succeeded = Login.IsCompleted;
                 await Task.Delay(1000);
             }
-
-            _loadingScreen.IsVisible = false;
-            _rssScreen.IsVisible = true;
         }
 
         private async Task PopulateListView()
         {
             await GetFeedsFromService();
-            await PopulateFilterListView();
+            PopulateFilterListView();
             foreach (var feed in feedControl.Feeds.Select(p=>p.Items).Select(p=>p))
             {
                 foreach (var feeditem in feed)

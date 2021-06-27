@@ -27,7 +27,7 @@ namespace rss_app.Services
         private IEnumerable<string> GetStringList(Guid guid)
         {
             var url =
-                "https://localhost:5001/Feeds/" + guid;
+                "https://raftypoile.id.lv/Feeds/" + guid;
             var httpRequest = (HttpWebRequest)WebRequest.Create(url);
             httpRequest.Method = "POST";
             httpRequest.ContentType = "application/json";

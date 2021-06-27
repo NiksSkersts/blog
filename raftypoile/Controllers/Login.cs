@@ -11,7 +11,7 @@ namespace raftypoile.Controllers
         private readonly mainContext _context;
         public Login(mainContext context) => _context = context;
         [HttpPost]
-        [Route("CEE08E7B-8104-4FC0-8B19-2C7B4B94EE96/{username}/{password}")]
+        [Route("CEE08E7B-8104-4FC0-8B19-2C7B4B94EE96/{username:maxlength(32)}/{password:maxlength(64)}")]
         public Guid GiveOutGuid(string username,string password)
         {
             return _context.LoginData.Single(p => p.Username.Equals(username) && p.Password.Equals(password)).IdUser;
