@@ -12,16 +12,20 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
     <Grid>
-        <Grid Name="GridLogin" IsVisible="{Binding Path=NotLoggedIn, Mode=TwoWay}" ShowGridLines="True" Grid.RowDefinitions="*,*,*,*,*,*,*,*" Grid.ColumnDefinitions="*,*,*,*,*,*,*">
+        <Grid IsVisible="True" Name="LoginScreen" ShowGridLines="True" RowDefinitions="*,*,*,*,*,*,*,*" ColumnDefinitions="*,*,*,*,*,*,*">
             <Label Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Username:"></Label>
             <Label Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Password:"></Label>
-            <TextBox Text="{Binding UserName}" Name="TbUsername" Grid.Row="2" Grid.Column="3" ></TextBox>
+            <TextBox Text="{Binding Username}" Name="TbUsername" Grid.Row="2" Grid.Column="3" ></TextBox>
             <TextBox Text="{Binding Password}" Name="TbPassword" Grid.Row="3" Grid.Column="3"></TextBox>
             <Button Grid.Row="4" Grid.Column="3" Content="Log-in" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_OnClick"></Button>
         </Grid>
-        <Grid IsVisible="{Binding !NotLoggedIn}" Grid.RowDefinitions="*,*,*,*,*,*,*,*" Grid.ColumnDefinitions="*,*,*,*,*,*,*">
+        <Grid IsVisible="False" x:Name="LoadingScreen">
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="LOADING..."></TextBlock>
+        </Grid>
+        <Grid x:Name="RssScreen" IsVisible="False" Grid.RowDefinitions="*,*,*,*,*,*,*,*" Grid.ColumnDefinitions="*,*,*,*,*,*,*">
+            <ListBox x:Name="FilterListBox" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="8"></ListBox>
+            <ListBox x:Name="ListFeedsListBox" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="8"></ListBox>
         </Grid>
         
     </Grid>
-
 </Window>
