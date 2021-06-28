@@ -92,7 +92,7 @@ namespace rss_app.Views
             var succeeded = false;
             while (!succeeded)
             {
-                Login = feedControl.FeedService(await lgnCntrl.GetGuidFromDb(_username.Text, _password.Text));
+                Login = feedControl.FeedService(await LoginControl.GetGuidFromDb(_username.Text, _password.Text));
                 succeeded = Login.IsCompleted;
                 await Task.Delay(1000);
             }

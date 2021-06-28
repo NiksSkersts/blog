@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using CodeHollow.FeedReader;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using raftypoile.Models;
 using rss_app.ViewModels;
 
 namespace rss_app.Services
@@ -26,16 +27,11 @@ namespace rss_app.Services
 
         private IEnumerable<string> GetStringList(Guid guid)
         {
-            var url =
-                "https://raftypoile.id.lv/Feeds/" + guid;
-            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
-            httpRequest.Method = "POST";
-            httpRequest.ContentType = "application/json";
-            httpRequest.Headers["Content-Length"] = "0";
-            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
-            using var streamReader = new StreamReader(httpResponse.GetResponseStream());
-            string result = streamReader.ReadToEnd();
-            return JsonConvert.DeserializeObject<IEnumerable<string>>(result);
+            var url = "Feeds/";
+            var data = new HttpGuid {guid = guid};
+            string jsntoobj = JsonConvert.SerializeObject(data);
+            return JsonConvert.DeserializeObject<IEnumerable<string>>(HttpClient.HttpReq(url,jsntoobj));
+
         }
         private ObservableCollection<Feed> GetFeeds(IEnumerable<string> feeds)
         {

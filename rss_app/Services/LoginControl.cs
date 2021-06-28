@@ -1,7 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Security.Authentication;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using raftypoile.Models;
+using RestSharp.Serialization.Json;
 using rss_app.ViewModels;
 
 namespace rss_app.Services
@@ -9,18 +14,12 @@ namespace rss_app.Services
     public class LoginControl
     {
         public Guid UserGuid { get; set; }
-        public async Task<Guid> GetGuidFromDb(string username, string password)
+        public static async Task<Guid> GetGuidFromDb(string username, string password)
         {
-            var url =
-                "https://raftypoile.id.lv/956C67E5-F469-420F-87EA-746E00084AAD/CEE08E7B-8104-4FC0-8B19-2C7B4B94EE96/" +
-                username + "/" + password;
-            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
-            httpRequest.Method = "POST";
-            httpRequest.ContentType = "application/json";
-            httpRequest.Headers["Content-Length"] = "0";
-            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
-            using var streamReader = new StreamReader(httpResponse.GetResponseStream());
-            string result = streamReader.ReadToEndAsync().Result;
+            var objtojson = new HttpBody{ username = username,password = password};
+            string jsonData = JsonConvert.SerializeObject(objtojson);
+            var url = "Login";
+            string result = HttpClient.HttpReq(url,jsonData);
             result = result.Trim('"');
             try
             {
