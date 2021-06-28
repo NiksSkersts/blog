@@ -15,7 +15,6 @@ using DynamicData;
 using DynamicData.Binding;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ReactiveUI;
-using rss_app.Services;
 using rss_app.Views;
 using Feed = CodeHollow.FeedReader.Feed;
 

@@ -5,6 +5,9 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Avalonia;
@@ -14,7 +17,10 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using CodeHollow.FeedReader;
 using DynamicData;
-using rss_app.ViewModels;
+using Newtonsoft.Json;
+using RestSharp;
+using RestSharp.Authenticators;
+using rss_app.Models;
 using rss_app.Services;
 using Feed = CodeHollow.FeedReader.Feed;
 
@@ -33,8 +39,8 @@ namespace rss_app.Views
         private TextBox _password;
         public static ListBox FilterListBox;
         public static ListBox ListFeedsListBox;
-        private LoginControl lgnCntrl = new ();
-        private FeedControl feedControl = new ();
+        private Login lgnCntrl = new ();
+        private API feedControl = new ();
         ObservableCollection<FeedItem> feedItems = new();
         #endregion
 
@@ -54,6 +60,7 @@ namespace rss_app.Views
         #endregion
         public MainWindow()
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls13 | SecurityProtocolType.Tls12;
             InitializeComponent();
 #if DEBUG
             this.AttachDevTools();
@@ -70,8 +77,15 @@ namespace rss_app.Views
         {
             ShowLoadingScreen();
             await Task.Delay(100);
-            await PopulateListView();
+            var token = await lgnCntrl.LoginService(_username.Text,_password.Text);
+            var feeds = await API.ConsumeFeedApi("Feeds",token);
+            SetDataContext(feeds);
             EndLoadingScreen();
+        }
+
+        private void SetDataContext(IEnumerable<string> feeds)
+        {
+            ListFeedsListBox.Items = feeds;
         }
 
         private void EndLoadingScreen()
@@ -85,36 +99,6 @@ namespace rss_app.Views
             _rssScreen.IsVisible = false;
             _loginScreen.IsVisible = false;
             _loadingScreen.IsVisible = true;
-        }
-
-        private async Task GetFeedsFromService()
-        {
-            var succeeded = false;
-            while (!succeeded)
-            {
-                Login = feedControl.FeedService(await LoginControl.GetGuidFromDb(_username.Text, _password.Text));
-                succeeded = Login.IsCompleted;
-                await Task.Delay(1000);
-            }
-        }
-
-        private async Task PopulateListView()
-        {
-            await GetFeedsFromService();
-            PopulateFilterListView();
-            foreach (var feed in feedControl.Feeds.Select(p=>p.Items).Select(p=>p))
-            {
-                foreach (var feeditem in feed)
-                {
-                    feedItems.Add(feeditem);
-                }
-            }
-            ListFeedsListBox.Items = feedItems.Select(p=>p.Title);
-        }
-
-        private async Task PopulateFilterListView()
-        {
-            FilterListBox.Items = feedControl.Feeds.Select(p => p.Title);
         }
     }
 }
