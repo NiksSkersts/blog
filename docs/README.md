@@ -1,9 +1,6 @@
-Kursa darbs "WWW Tehnoloģijās",  
-Iespējamais kursa darbs "Lietojumu programmēšana datubāzēm",  
-Personīgais blogs,  
+Course "WWW technologies" final assignment.
 LLU, Jelgava 2021,  
 IT19055.
-
 
 Postgresql 11 on Debian 10.  
 
