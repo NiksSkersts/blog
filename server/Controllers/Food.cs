@@ -37,7 +37,7 @@ namespace server.Controllers
             {
                 return fullEnum.Single(p => p.IdRecipe == id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // ignored
             }

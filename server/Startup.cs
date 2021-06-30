@@ -50,9 +50,7 @@ namespace server
             });
             services.AddDbContext<mainContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Default")));
             services.AddRazorPages();
-            services.AddControllersWithViews().AddRazorRuntimeCompilation().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            services.AddMvc().AddRazorRuntimeCompilation();
-            
+            services.AddControllersWithViews().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
