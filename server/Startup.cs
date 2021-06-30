@@ -75,7 +75,6 @@ namespace server
             });
             
             app.UseDefaultFiles();
-            app.UseStaticFiles();
         }
     }
 }

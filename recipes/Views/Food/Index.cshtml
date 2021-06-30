@@ -1,0 +1,10 @@
+@model IEnumerable<server.Models.Recipe>
+@{
+    Layout = "_Layout";
+}
+@foreach (var item in Model)
+{
+    <ul class="small-4 large grid-padding-y grid-padding-x">
+        <li><a class="warning" href="Expanded/@item.IdRecipe">@item.Title</a></li>
+    </ul>
+}
