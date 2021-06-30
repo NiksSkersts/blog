@@ -1,0 +1,8 @@
+﻿@model server.Models.Post
+@if (Model.IdPicture != null)
+{
+    <img class="expanded-pic" alt="@Model.IdPictureNavigation.AlternativeText" src="@Model.IdPictureNavigation.SourceHeader">
+}
+<div class="expanded-view">
+    @Html.Raw(Model.Body)
+</div>

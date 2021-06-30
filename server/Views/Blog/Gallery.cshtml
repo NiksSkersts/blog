@@ -1,0 +1,5 @@
+﻿@model IEnumerable<server.Models.Picture>
+@foreach (var picture in Model.Where(p=>p.Published))
+{
+    <a class="card small-12 medium-6 large-6" href="~/Blog/ExpandedGallery/@picture.IdPicture"><img src="@picture.SourcePreview" alt="@picture.AlternativeText"></a>
+}
