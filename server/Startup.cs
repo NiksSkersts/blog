@@ -15,7 +15,7 @@ namespace server
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; set; }
+        private IConfiguration Configuration { get; set; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -41,14 +41,13 @@ namespace server
                     ValidAudience = Configuration["Jwt:ValidAudience"],    
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Secret"]))  
                 };
+                opt.SaveToken = true;
             });
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            //services.AddHttpContextAccessor();
             services.AddDbContext<mainContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Default")));
             services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

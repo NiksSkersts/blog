@@ -12,7 +12,7 @@ using server.Models;
 
 namespace server.Controllers
 {
-    [Route("Login")]
+    [Route("API/Login")]
     [ApiController]
     public class Login : ControllerBase
     {

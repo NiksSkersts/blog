@@ -8,25 +8,30 @@ using server.Models;
 
 namespace server.Controllers
 {
-    [Route("Feeds")]
+    [Route("API/Feeds")]
     [ApiController]
     [Authorize]
     public class Feeds : ControllerBase
     {
         private readonly mainContext _context;
         private readonly IConfiguration _configuration;
-        public Feeds(mainContext context,IConfiguration _configuration)
+        public Feeds(mainContext context,IConfiguration configuration)
         {
-            this._configuration = _configuration;
+            this._configuration = configuration;
             _context = context;
         }
 
         [HttpGet]
         
-        public IEnumerable<string> GiveURL()
+        public IEnumerable<string> GiveUrl()
         {
-            var identityName = User.Identity.Name;
-            return _context.Feeds.Where(p => p.IdUser.Equals(Guid.Parse(identityName))).Select(p => p.FeedUrl);
+            if (User.Identity != null)
+            {
+                var identityName = User.Identity.Name;
+                return _context.Feeds.Where(p => p.IdUser.Equals(Guid.Parse(identityName))).Select(p => p.FeedUrl);
+            }
+
+            return null;
         }
     }
 }
