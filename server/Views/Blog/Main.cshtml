@@ -7,5 +7,5 @@
     <div class="card small-12" >
         @{ await Html.RenderPartialAsync("PostPreview", Model.Where(p => p.IdPicture != null).Take(4)); }
     </div>
+    <div id="to-gallery" class="card float-center">@{ await Html.RenderPartialAsync("ToGallery");}</div>
 }
-<div id="to-gallery" class="card float-center">@{ await Html.RenderPartialAsync("ToGallery");}</div>
