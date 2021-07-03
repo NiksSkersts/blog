@@ -16,4 +16,8 @@
       <PackageReference Include="RestSharp" Version="106.11.7" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\database\database.csproj" />
+    </ItemGroup>
+
 </Project>

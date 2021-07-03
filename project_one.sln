@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "server", "server\server.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "recipes", "recipes\recipes.csproj", "{DB11CF15-A1C6-40B6-8E20-72408D53C205}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "database", "database\database.csproj", "{32024E79-0C24-4800-A71E-FF93DE16CF49}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{DB11CF15-A1C6-40B6-8E20-72408D53C205}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB11CF15-A1C6-40B6-8E20-72408D53C205}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB11CF15-A1C6-40B6-8E20-72408D53C205}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32024E79-0C24-4800-A71E-FF93DE16CF49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32024E79-0C24-4800-A71E-FF93DE16CF49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32024E79-0C24-4800-A71E-FF93DE16CF49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32024E79-0C24-4800-A71E-FF93DE16CF49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

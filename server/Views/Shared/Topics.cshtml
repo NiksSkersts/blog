@@ -1,4 +1,4 @@
-﻿@model IEnumerable<server.Models.Post>
+﻿@model IEnumerable<database.Post>
 <ul content="Meklēt pēc tēmas:">
 @foreach (var topic in Model.GroupBy(p=>p.IdCat).Select(p=>p.First()))
 {

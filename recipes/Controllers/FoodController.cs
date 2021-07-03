@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using RestSharp;
-using server.Models;
 
 namespace recipes.Controllers
 {
