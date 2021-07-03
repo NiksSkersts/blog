@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
-namespace server.Models
+namespace database
 {
     public partial class Quote
     {
@@ -10,9 +11,9 @@ namespace server.Models
         public Guid IdUser { get; set; }
         public string Body { get; set; }
         public string Author { get; set; }
-        public long IdSocialMedia { get; set; }
+        public string Source { get; set; }
+        public string Timestamp { get; set; }
 
-        public virtual SocialMedium IdSocialMediaNavigation { get; set; }
         public virtual User IdUserNavigation { get; set; }
     }
 }

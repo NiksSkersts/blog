@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+
 
 #nullable disable
 
-namespace server.Models
+namespace database
 {
     public partial class mainContext : DbContext
     {
@@ -18,22 +21,30 @@ namespace server.Models
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Document> Documents { get; set; }
         public virtual DbSet<DocumentType> DocumentTypes { get; set; }
-        public virtual DbSet<Email> Emails { get; set; }
         public virtual DbSet<Feed> Feeds { get; set; }
         public virtual DbSet<Icon> Icons { get; set; }
         public virtual DbSet<Ingredient> Ingredients { get; set; }
+        public virtual DbSet<IngredientCategory> IngredientCategories { get; set; }
         public virtual DbSet<IngredientIndex> IngredientIndices { get; set; }
-        public virtual DbSet<LoginDatum> LoginData { get; set; }
+        public virtual DbSet<IngredientRef> IngredientRefs { get; set; }
         public virtual DbSet<Picture> Pictures { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<Quote> Quotes { get; set; }
         public virtual DbSet<Recipe> Recipes { get; set; }
+        public virtual DbSet<RecipePictureIndex> RecipePictureIndices { get; set; }
+        public virtual DbSet<RecipeTagIndex> RecipeTagIndices { get; set; }
+        public virtual DbSet<RecipeUserIndex> RecipeUserIndices { get; set; }
         public virtual DbSet<SocialMediaRef> SocialMediaRefs { get; set; }
         public virtual DbSet<SocialMedium> SocialMedia { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
-        public virtual DbSet<TagIndex> TagIndices { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UserIndex> UserIndices { get; set; }
+        public virtual DbSet<UserEmail> UserEmails { get; set; }
+        public virtual DbSet<UserLoginDatum> UserLoginData { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            Connection.ConnectToDb(optionsBuilder);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -115,30 +126,16 @@ namespace server.Models
                     .HasColumnName("name");
             });
 
-            modelBuilder.Entity<Email>(entity =>
-            {
-                entity.HasKey(e => e.IdEmail)
-                    .HasName("emails_pk");
-
-                entity.ToTable("emails", "Main");
-
-                entity.Property(e => e.IdEmail).HasColumnName("id_email");
-
-                entity.Property(e => e.Email1)
-                    .IsRequired()
-                    .HasColumnType("character varying")
-                    .HasColumnName("email")
-                    .HasComment("email from app");
-            });
-
             modelBuilder.Entity<Feed>(entity =>
             {
                 entity.HasKey(e => e.IdFeed)
                     .HasName("feed_pk");
 
-                entity.ToTable("feed", "Main");
+                entity.ToTable("feeds", "Main");
 
-                entity.Property(e => e.IdFeed).HasColumnName("id_feed");
+                entity.Property(e => e.IdFeed)
+                    .HasColumnName("id_feed")
+                    .HasDefaultValueSql("nextval('\"Main\".feed_id_feed_seq'::regclass)");
 
                 entity.Property(e => e.FeedName)
                     .IsRequired()
@@ -201,15 +198,40 @@ namespace server.Models
 
                 entity.Property(e => e.IdIngredient).HasColumnName("id_ingredient");
 
+                entity.Property(e => e.IdCategory).HasColumnName("id_category");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
+                    .HasColumnType("character varying")
+                    .HasColumnName("name");
+
+                entity.HasOne(d => d.IdCategoryNavigation)
+                    .WithMany(p => p.Ingredients)
+                    .HasForeignKey(d => d.IdCategory)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("to_ingredients");
+            });
+
+            modelBuilder.Entity<IngredientCategory>(entity =>
+            {
+                entity.HasKey(e => e.IdCategory)
+                    .HasName("ingredient_categories_pk");
+
+                entity.ToTable("ingredient_categories", "Main");
+
+                entity.HasIndex(e => e.Name, "ingredient_categories_name_uindex")
+                    .IsUnique();
+
+                entity.Property(e => e.IdCategory).HasColumnName("id_category");
+
+                entity.Property(e => e.Name)
                     .HasColumnType("character varying")
                     .HasColumnName("name");
             });
 
             modelBuilder.Entity<IngredientIndex>(entity =>
             {
-                entity.HasKey(e => new { e.IdRecipe, e.IdIngredient })
+                entity.HasKey(e => new { e.IdRecipe, e.IdIngredient, e.IdRef })
                     .HasName("ingredient_index_pk");
 
                 entity.ToTable("ingredient_index", "Main");
@@ -217,6 +239,10 @@ namespace server.Models
                 entity.Property(e => e.IdRecipe).HasColumnName("id_recipe");
 
                 entity.Property(e => e.IdIngredient).HasColumnName("id_ingredient");
+
+                entity.Property(e => e.IdRef)
+                    .HasColumnName("id_ref")
+                    .HasDefaultValueSql("1");
 
                 entity.Property(e => e.Grams).HasColumnName("grams");
 
@@ -229,38 +255,27 @@ namespace server.Models
                     .WithMany(p => p.IngredientIndices)
                     .HasForeignKey(d => d.IdRecipe)
                     .HasConstraintName("to_recipes");
+
+                entity.HasOne(d => d.IdRefNavigation)
+                    .WithMany(p => p.IngredientIndices)
+                    .HasForeignKey(d => d.IdRef)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("to_refs");
             });
 
-            modelBuilder.Entity<LoginDatum>(entity =>
+            modelBuilder.Entity<IngredientRef>(entity =>
             {
-                entity.HasKey(e => e.IdUser)
-                    .HasName("users_pk");
+                entity.HasKey(e => e.IdRef)
+                    .HasName("ingredient_refs_pk");
 
-                entity.ToTable("login_data", "Main");
+                entity.ToTable("ingredient_refs", "Main");
 
-                entity.Property(e => e.IdUser)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id_user");
+                entity.Property(e => e.IdRef).HasColumnName("id_ref");
 
-                entity.Property(e => e.AccountCreated)
-                    .HasColumnType("date")
-                    .HasColumnName("account_created")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.Password)
+                entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnType("character varying")
-                    .HasColumnName("password");
-
-                entity.Property(e => e.Username)
-                    .IsRequired()
-                    .HasColumnType("character varying")
-                    .HasColumnName("username");
-
-                entity.HasOne(d => d.IdUserNavigation)
-                    .WithOne(p => p.LoginDatum)
-                    .HasForeignKey<LoginDatum>(d => d.IdUser)
-                    .HasConstraintName("login_data_fk");
+                    .HasColumnName("name");
             });
 
             modelBuilder.Entity<Picture>(entity =>
@@ -359,6 +374,7 @@ namespace server.Models
                 entity.Property(e => e.IdQuote).HasColumnName("id_quote");
 
                 entity.Property(e => e.Author)
+                    .IsRequired()
                     .HasColumnType("character varying")
                     .HasColumnName("author");
 
@@ -366,14 +382,17 @@ namespace server.Models
                     .IsRequired()
                     .HasColumnName("body");
 
-                entity.Property(e => e.IdSocialMedia).HasColumnName("id_social_media");
-
                 entity.Property(e => e.IdUser).HasColumnName("id_user");
 
-                entity.HasOne(d => d.IdSocialMediaNavigation)
-                    .WithMany(p => p.Quotes)
-                    .HasForeignKey(d => d.IdSocialMedia)
-                    .HasConstraintName("to_social_media");
+                entity.Property(e => e.Source)
+                    .IsRequired()
+                    .HasColumnName("source");
+
+                entity.Property(e => e.Timestamp)
+                    .IsRequired()
+                    .HasColumnType("character varying")
+                    .HasColumnName("timestamp")
+                    .HasDefaultValueSql("now()");
 
                 entity.HasOne(d => d.IdUserNavigation)
                     .WithMany(p => p.Quotes)
@@ -404,7 +423,7 @@ namespace server.Models
 
                 entity.Property(e => e.Servings)
                     .HasColumnName("servings")
-                    .HasDefaultValueSql("4");
+                    .HasDefaultValueSql("1");
 
                 entity.Property(e => e.Timestamp)
                     .HasColumnType("date")
@@ -415,6 +434,76 @@ namespace server.Models
                     .IsRequired()
                     .HasColumnType("character varying")
                     .HasColumnName("title");
+
+                entity.Property(e => e.TotalOutcome)
+                    .HasColumnType("character varying")
+                    .HasColumnName("total_outcome");
+            });
+
+            modelBuilder.Entity<RecipePictureIndex>(entity =>
+            {
+                entity.HasKey(e => new { e.IdRecipe, e.IdPicture })
+                    .HasName("picture_index_pk");
+
+                entity.ToTable("recipe_picture_index", "Main");
+
+                entity.Property(e => e.IdRecipe).HasColumnName("id_recipe");
+
+                entity.Property(e => e.IdPicture).HasColumnName("id_picture");
+
+                entity.HasOne(d => d.IdPictureNavigation)
+                    .WithMany(p => p.RecipePictureIndices)
+                    .HasForeignKey(d => d.IdPicture)
+                    .HasConstraintName("recipe_picture_index_fk");
+
+                entity.HasOne(d => d.IdRecipeNavigation)
+                    .WithMany(p => p.RecipePictureIndices)
+                    .HasForeignKey(d => d.IdRecipe)
+                    .HasConstraintName("picture_index_fk_1");
+            });
+
+            modelBuilder.Entity<RecipeTagIndex>(entity =>
+            {
+                entity.HasKey(e => new { e.IdTag, e.IdRecipe })
+                    .HasName("tag_index_pk");
+
+                entity.ToTable("recipe_tag_index", "Main");
+
+                entity.Property(e => e.IdTag).HasColumnName("id_tag");
+
+                entity.Property(e => e.IdRecipe).HasColumnName("id_recipe");
+
+                entity.HasOne(d => d.IdRecipeNavigation)
+                    .WithMany(p => p.RecipeTagIndices)
+                    .HasForeignKey(d => d.IdRecipe)
+                    .HasConstraintName("to_recipes");
+
+                entity.HasOne(d => d.IdTagNavigation)
+                    .WithMany(p => p.RecipeTagIndices)
+                    .HasForeignKey(d => d.IdTag)
+                    .HasConstraintName("to_tags");
+            });
+
+            modelBuilder.Entity<RecipeUserIndex>(entity =>
+            {
+                entity.HasKey(e => new { e.IdRecipe, e.IdUser })
+                    .HasName("user_index_pk");
+
+                entity.ToTable("recipe_user_index", "Main");
+
+                entity.Property(e => e.IdRecipe).HasColumnName("id_recipe");
+
+                entity.Property(e => e.IdUser).HasColumnName("id_user");
+
+                entity.HasOne(d => d.IdRecipeNavigation)
+                    .WithMany(p => p.RecipeUserIndices)
+                    .HasForeignKey(d => d.IdRecipe)
+                    .HasConstraintName("to_recipes");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.RecipeUserIndices)
+                    .HasForeignKey(d => d.IdUser)
+                    .HasConstraintName("to_users");
             });
 
             modelBuilder.Entity<SocialMediaRef>(entity =>
@@ -496,28 +585,6 @@ namespace server.Models
                     .HasColumnName("name");
             });
 
-            modelBuilder.Entity<TagIndex>(entity =>
-            {
-                entity.HasKey(e => new { e.IdTag, e.IdRecipe })
-                    .HasName("tag_index_pk");
-
-                entity.ToTable("tag_index", "Main");
-
-                entity.Property(e => e.IdTag).HasColumnName("id_tag");
-
-                entity.Property(e => e.IdRecipe).HasColumnName("id_recipe");
-
-                entity.HasOne(d => d.IdRecipeNavigation)
-                    .WithMany(p => p.TagIndices)
-                    .HasForeignKey(d => d.IdRecipe)
-                    .HasConstraintName("to_recipes");
-
-                entity.HasOne(d => d.IdTagNavigation)
-                    .WithMany(p => p.TagIndices)
-                    .HasForeignKey(d => d.IdTag)
-                    .HasConstraintName("to_tags");
-            });
-
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.IdUser)
@@ -550,34 +617,64 @@ namespace server.Models
                 entity.HasOne(d => d.IdEmailNavigation)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.IdEmail)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("to_emails");
 
                 entity.HasOne(d => d.IdPictureNavigation)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.IdPicture)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("authors_fk");
             });
 
-            modelBuilder.Entity<UserIndex>(entity =>
+            modelBuilder.Entity<UserEmail>(entity =>
             {
-                entity.HasKey(e => new { e.IdRecipe, e.IdUser })
-                    .HasName("user_index_pk");
+                entity.HasKey(e => e.IdEmail)
+                    .HasName("emails_pk");
 
-                entity.ToTable("user_index", "Main");
+                entity.ToTable("user_emails", "Main");
 
-                entity.Property(e => e.IdRecipe).HasColumnName("id_recipe");
+                entity.Property(e => e.IdEmail)
+                    .HasColumnName("id_email")
+                    .HasDefaultValueSql("nextval('\"Main\".emails_id_email_seq'::regclass)");
 
-                entity.Property(e => e.IdUser).HasColumnName("id_user");
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasColumnType("character varying")
+                    .HasColumnName("email")
+                    .HasComment("email from app");
+            });
 
-                entity.HasOne(d => d.IdRecipeNavigation)
-                    .WithMany(p => p.UserIndices)
-                    .HasForeignKey(d => d.IdRecipe)
-                    .HasConstraintName("to_recipes");
+            modelBuilder.Entity<UserLoginDatum>(entity =>
+            {
+                entity.HasKey(e => e.IdUser)
+                    .HasName("users_pk");
+
+                entity.ToTable("user_login_data", "Main");
+
+                entity.Property(e => e.IdUser)
+                    .ValueGeneratedNever()
+                    .HasColumnName("id_user");
+
+                entity.Property(e => e.AccountCreated)
+                    .HasColumnType("date")
+                    .HasColumnName("account_created")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasColumnType("character varying")
+                    .HasColumnName("password");
+
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasColumnType("character varying")
+                    .HasColumnName("username");
 
                 entity.HasOne(d => d.IdUserNavigation)
-                    .WithMany(p => p.UserIndices)
-                    .HasForeignKey(d => d.IdUser)
-                    .HasConstraintName("to_users");
+                    .WithOne(p => p.UserLoginDatum)
+                    .HasForeignKey<UserLoginDatum>(d => d.IdUser)
+                    .HasConstraintName("login_data_fk");
             });
 
             modelBuilder.HasSequence("recipes_inc", "Main");

@@ -3,15 +3,16 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace server.Models
+namespace database
 {
     public partial class Recipe
     {
         public Recipe()
         {
             IngredientIndices = new HashSet<IngredientIndex>();
-            TagIndices = new HashSet<TagIndex>();
-            UserIndices = new HashSet<UserIndex>();
+            RecipePictureIndices = new HashSet<RecipePictureIndex>();
+            RecipeTagIndices = new HashSet<RecipeTagIndex>();
+            RecipeUserIndices = new HashSet<RecipeUserIndex>();
         }
 
         public int IdRecipe { get; set; }
@@ -20,9 +21,11 @@ namespace server.Models
         public TimeSpan CookingTime { get; set; }
         public int Servings { get; set; }
         public DateTime Timestamp { get; set; }
+        public string TotalOutcome { get; set; }
 
         public virtual ICollection<IngredientIndex> IngredientIndices { get; set; }
-        public virtual ICollection<TagIndex> TagIndices { get; set; }
-        public virtual ICollection<UserIndex> UserIndices { get; set; }
+        public virtual ICollection<RecipePictureIndex> RecipePictureIndices { get; set; }
+        public virtual ICollection<RecipeTagIndex> RecipeTagIndices { get; set; }
+        public virtual ICollection<RecipeUserIndex> RecipeUserIndices { get; set; }
     }
 }

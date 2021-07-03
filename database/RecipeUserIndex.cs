@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
-namespace server.Models
+namespace database
 {
-    public partial class UserIndex
+    public partial class RecipeUserIndex
     {
         public int IdRecipe { get; set; }
         public Guid IdUser { get; set; }

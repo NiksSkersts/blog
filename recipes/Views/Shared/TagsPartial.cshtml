@@ -1,0 +1,11 @@
+@model IEnumerable<ICollection<database.RecipeTagIndex>>
+
+<div class="button-group">
+@foreach (var item in Model)
+{
+    @foreach (var next in item)
+    {
+        <button id="@next.IdTagNavigation.IdTag" class="filter-button button"data-filter>@next.IdTagNavigation.Name</button>
+    }
+}
+</div>

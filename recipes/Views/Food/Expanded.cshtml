@@ -1,8 +1,33 @@
-@model server.Models.Recipe
+@model database.Recipe
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = @Model.Title;
     Layout = "_Layout";
 }
-
-<h2>title</h2>
+<div class="small-12 align-center-middle">
+    <h2 class="text-center">@Model.Title</h2>
+    <div id="ingredients" class="grid-x">
+        @foreach (var item in Model.IngredientIndices.Select(p => p.IdRef).Distinct())
+        {
+            <div class="small-12 medium-4 large-2">
+                <h6>@Model.IngredientIndices.FirstOrDefault(p=>p.IdRefNavigation.IdRef==item)?.IdRefNavigation.Name:</h6>
+                <ul class="">
+                    @foreach (var ing in Model.IngredientIndices.Where(p => p.IdRef == item).Select(p => p))
+                    {
+                        <li>@ing.IdIngredientNavigation.Name - @ing.Grams g</li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+    <div id="recipe-body">
+        <h4>Gatavošanas apraksts:</h4>
+        @Html.Raw(@Model.Body)
+    </div>
+    @if(Model.RecipePictureIndices.Any())
+    {
+        <div id="process-graph" class="align-center-middle">
+            <img src="@Model.RecipePictureIndices.Select(p=>p.IdPictureNavigation.SourceOriginal).Select(p=>p).First()" alt="@Model.RecipePictureIndices.Select(p=>p.IdPictureNavigation.AlternativeText.ToString())"/>
+        </div>
+    }
+</div>

@@ -1,10 +1,6 @@
-@model IEnumerable<server.Models.Recipe>
+@model IEnumerable<database.Recipe>
 @{
     Layout = "_Layout";
 }
-@foreach (var item in Model)
-{
-    <ul class="small-4 large grid-padding-y grid-padding-x">
-        <li><a class="warning" href="Expanded/@item.IdRecipe">@item.Title</a></li>
-    </ul>
-}
+<div class="card small-12">@{await Html.RenderPartialAsync("TagsPartial", Model.Select(p=>p.RecipeTagIndices));}</div>
+<div class="card small-12">@{await Html.RenderPartialAsync("ListPartial", Model);}</div>

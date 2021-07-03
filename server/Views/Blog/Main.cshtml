@@ -1,4 +1,4 @@
-﻿@model IEnumerable<server.Models.Post>
+﻿@model IEnumerable<database.Post>
 <div class="card small-12">@{await Html.RenderPartialAsync("AboutMe", Model.Single(p=>p.IdCat==2));}</div>
 <div id="down" class="card small-12 medium-5 large-5">@{ await Html.RenderPartialAsync("Work", Model.Where(post=>post.Published).OrderByDescending(p=>p.Date).Take(5));}</div>
 <div class="card small-12 medium-5 large-5">@{ await Html.RenderPartialAsync("Topics", Model.Where(post=>post.Published).Select(p=>p));}</div>

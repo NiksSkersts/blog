@@ -4,11 +4,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using server.Models;
 
 namespace server.Controllers
 {
@@ -27,46 +27,44 @@ namespace server.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult DoLogin([FromBody] LoginDatum model)
+        public IActionResult DoLogin([FromBody] UserLoginDatum model)
         {
             IActionResult response = Unauthorized();    
             var user = AuthenticateUser(model);
     
             if (user != null)    
             {    
-                var tokenString = GenerateJsonWebToken(user);    
+               var tokenString = GenerateJsonWebToken(user);    
                 response = Ok(new { token = tokenString });    
             }    
     
             return response;   
         }
-        private LoginDatum AuthenticateUser(LoginDatum login)    
+        private UserLoginDatum AuthenticateUser(UserLoginDatum login)    
         {    
-            var user = main.LoginData
-                .Where(p => p.Username.Equals(login.Username)).Single(p => p.Password.Equals(login.Password));
-            //Single func returns a single entry or an exception.
+            var user = main.UserLoginData.Where(p => p.Username.Equals(login.Username)).Single(p => p.Password.Equals(login.Password));
             return user;    
         } 
 
 
-        public OkObjectResult GenerateJsonWebToken(LoginDatum user)
+        public OkObjectResult GenerateJsonWebToken(UserLoginDatum user)
         {
-            var authClaims = new List<Claim> {
-                    new(ClaimTypes.Name, user.IdUser.ToString()),
-                    new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-                var token = new JwtSecurityToken(
-                    _configuration["JWT:ValidIssuer"],
-                    _configuration["JWT:ValidAudience"],
+           var authClaims = new List<Claim> {
+                  new(ClaimTypes.Name, user.IdUser.ToString()),
+                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
+           var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Connection.GetJwtSecret()));
+          var token = new JwtSecurityToken(
+                    Connection.GetJwtIssuer(),
+                    Connection.GetJwtIssuer(),
                     expires: DateTime.Now.AddHours(3),
-                    claims: authClaims,
-                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
-                return Ok(new {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
-                });
+                   claims: authClaims,
+                  signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+               );
+               return Ok(new {
+                  token = new JwtSecurityTokenHandler().WriteToken(token),
+                 expiration = token.ValidTo
+               });
             }
     }
 }

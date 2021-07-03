@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
-namespace server.Models
+namespace database
 {
-    public partial class LoginDatum
+    public partial class UserLoginDatum
     {
         public Guid IdUser { get; set; }
         public string Username { get; set; }

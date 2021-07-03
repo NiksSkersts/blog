@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
-namespace server.Models
+namespace database
 {
     public partial class Ingredient
     {
@@ -13,7 +14,9 @@ namespace server.Models
 
         public int IdIngredient { get; set; }
         public string Name { get; set; }
+        public int? IdCategory { get; set; }
 
+        public virtual IngredientCategory IdCategoryNavigation { get; set; }
         public virtual ICollection<IngredientIndex> IngredientIndices { get; set; }
     }
 }

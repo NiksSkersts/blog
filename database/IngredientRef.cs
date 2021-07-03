@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
-namespace server.Models
+namespace database
 {
-    public partial class Ingredient
+    public partial class IngredientRef
     {
-        public Ingredient()
+        public IngredientRef()
         {
             IngredientIndices = new HashSet<IngredientIndex>();
         }
 
-        public int IdIngredient { get; set; }
+        public int IdRef { get; set; }
         public string Name { get; set; }
 
         public virtual ICollection<IngredientIndex> IngredientIndices { get; set; }

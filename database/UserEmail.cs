@@ -1,18 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
-namespace server.Models
+namespace database
 {
-    public partial class Email
+    public partial class UserEmail
     {
-        public Email()
+        public UserEmail()
         {
             Users = new HashSet<User>();
         }
 
         public long IdEmail { get; set; }
-        public string Email1 { get; set; }
+        public string Email { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
     }

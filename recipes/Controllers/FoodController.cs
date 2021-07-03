@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using database;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using RestSharp;
-using server.Models;
 
 namespace recipes.Controllers
 {
@@ -12,10 +13,10 @@ namespace recipes.Controllers
     [Controller]
     public class FoodController : Controller
     {
-        private readonly IConfiguration _configuration;
-        public FoodController(IConfiguration configuration)
+        private mainContext Context { get; }
+        public FoodController(IConfiguration configuration,mainContext _context)
         {
-            _configuration = configuration;
+            Context = _context;
         }
 
         [Route("/")]
@@ -32,17 +33,12 @@ namespace recipes.Controllers
 
         public IEnumerable<Recipe> Get()
         {
-            var client = new RestClient(_configuration["api_list_food"]) {Timeout = -1};
-            var request = new RestRequest(Method.GET);
-            var response = client.Execute(request);
-            return JsonConvert.DeserializeObject<IEnumerable<Recipe>>(response.Content);
+            return Context.Recipes.Select(p => p).Include(p=>p.IngredientIndices).ThenInclude(p=>p.IdIngredientNavigation).ThenInclude(p=>p.IdCategoryNavigation).Include(p=>p.IngredientIndices).ThenInclude(p=>p.IdRefNavigation).Include(p=>p.RecipePictureIndices).ThenInclude(p=>p.IdPictureNavigation).Include(p=>p.RecipeTagIndices).ThenInclude(p=>p.IdTagNavigation).Include(p=>p.RecipeUserIndices).ThenInclude(p=>p.IdUserNavigation).Select(p=>p).AsSplitQuery();
         }
         public Recipe GetSingle(int id)
         {
-            var client = new RestClient(_configuration["api_list_food"] + "/" + id) {Timeout = -1};
-            var request = new RestRequest(Method.GET);
-            var response = client.Execute(request);
-            return JsonConvert.DeserializeObject<Recipe>(response.Content);
+            var enumerable = Get();
+            return enumerable.Single(p => p.IdRecipe == id);
         }
     }
 }

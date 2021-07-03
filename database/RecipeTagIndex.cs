@@ -1,8 +1,11 @@
-﻿#nullable disable
+﻿using System;
+using System.Collections.Generic;
 
-namespace server.Models
+#nullable disable
+
+namespace database
 {
-    public partial class TagIndex
+    public partial class RecipeTagIndex
     {
         public int IdRecipe { get; set; }
         public int IdTag { get; set; }

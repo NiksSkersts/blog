@@ -12,11 +12,12 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.7" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
       <PackageReference Include="RestSharp" Version="106.11.7" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot" />
+      <ProjectReference Include="..\database\database.csproj" />
     </ItemGroup>
 
 </Project>

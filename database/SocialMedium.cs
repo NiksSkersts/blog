@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
-namespace server.Models
+namespace database
 {
     public partial class SocialMedium
     {
         public SocialMedium()
         {
-            Quotes = new HashSet<Quote>();
             SocialMediaRefs = new HashSet<SocialMediaRef>();
         }
 
@@ -18,7 +18,6 @@ namespace server.Models
         public long IdIcon { get; set; }
 
         public virtual Icon IdIconNavigation { get; set; }
-        public virtual ICollection<Quote> Quotes { get; set; }
         public virtual ICollection<SocialMediaRef> SocialMediaRefs { get; set; }
     }
 }

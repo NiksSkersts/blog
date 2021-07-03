@@ -1,4 +1,5 @@
 using System.Text;
+using database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,7 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using server.Models;
 
 namespace server
 {
@@ -37,9 +37,9 @@ namespace server
                     ValidateAudience = true,    
                     ValidateLifetime = true,    
                     ValidateIssuerSigningKey = true,    
-                    ValidIssuer = Configuration["Jwt:ValidIssuer"],    
-                    ValidAudience = Configuration["Jwt:ValidAudience"],    
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Secret"]))  
+                    ValidIssuer = Connection.GetJwtIssuer(),    
+                    ValidAudience = Connection.GetJwtIssuer(),    
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Connection.GetSecret()))  
                 };
                 opt.SaveToken = true;
             });
@@ -48,7 +48,7 @@ namespace server
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddDbContext<mainContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Default")));
+            services.AddDbContext<mainContext>(options => options.UseNpgsql(Connection.GetSecret()));
             services.AddRazorPages();
             services.AddControllersWithViews().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }

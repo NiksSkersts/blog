@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
-namespace server.Models
+namespace database
 {
     public partial class Document
     {
