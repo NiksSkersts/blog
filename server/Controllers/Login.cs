@@ -36,7 +36,7 @@ namespace server.Controllers
             {    
                var tokenString = GenerateJsonWebToken(user);    
                 response = Ok(new { token = tokenString });    
-           }    
+            }    
     
             return response;   
         }

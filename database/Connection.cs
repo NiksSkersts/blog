@@ -12,7 +12,7 @@ namespace database
         private static void Init()
         {
             _configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory())?.FullName+"/database/")
+                .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
         }
