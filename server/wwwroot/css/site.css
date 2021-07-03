@@ -49,6 +49,13 @@ html, body {font-size: 1rem;background-color: black;min-width: 280px;font-family
 .expanded-view li a { margin: 0; display: block; width: 100%; height: 100%; }
 #to-gallery{
     text-align: center;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+    color: black;
+    position: fixed;
+    z-index: 9;
+    padding: 5px;
 }
 .aboutme-wrapper {
     color: black;
