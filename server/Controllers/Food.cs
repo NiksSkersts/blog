@@ -24,7 +24,7 @@ namespace server.Controllers
         [HttpGet]
         public IEnumerable<Recipe> Get()
         {
-            return _context.Recipes.Select(p => p).Include(p=>p.IngredientIndices).ThenInclude(p=>p.IdIngredientNavigation).ThenInclude(p=>p.IdCategoryNavigation).Include(p=>p.IngredientIndices).ThenInclude(p=>p.IdRefNavigation).Include(p=>p.RecipePictureIndices).ThenInclude(p=>p.IdPictureNavigation).Include(p=>p.RecipeTagIndices).ThenInclude(p=>p.IdTagNavigation).Include(p=>p.RecipeUserIndices).ThenInclude(p=>p.IdUserNavigation).Select(p=>p);
+            return _context.Recipes.Select(p => p).Include(p=>p.IngredientIndices).ThenInclude(p=>p.IdIngredientNavigation).ThenInclude(p=>p.IdCategoryNavigation).Include(p=>p.IngredientIndices).ThenInclude(p=>p.IdRefNavigation).Include(p=>p.RecipePictureIndices).ThenInclude(p=>p.IdPictureNavigation).Include(p=>p.RecipeTagIndices).ThenInclude(p=>p.IdTagNavigation).Include(p=>p.RecipeUserIndices).ThenInclude(p=>p.IdUserNavigation).Select(p=>p).AsSplitQuery();
         }
         [HttpGet]
         [Route("{id:int}")]
