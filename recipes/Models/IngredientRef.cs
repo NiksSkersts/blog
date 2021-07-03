@@ -5,18 +5,16 @@ using System.Collections.Generic;
 
 namespace server.Models
 {
-    public partial class Ingredient
+    public partial class IngredientRef
     {
-        public Ingredient()
+        public IngredientRef()
         {
             IngredientIndices = new HashSet<IngredientIndex>();
         }
 
-        public int IdIngredient { get; set; }
+        public int IdRef { get; set; }
         public string Name { get; set; }
-        public int? IdCategory { get; set; }
 
-        public virtual IngredientCategory IdCategoryNavigation { get; set; }
         public virtual ICollection<IngredientIndex> IngredientIndices { get; set; }
     }
 }

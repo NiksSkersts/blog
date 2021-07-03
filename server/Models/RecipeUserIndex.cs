@@ -4,7 +4,7 @@
 
 namespace server.Models
 {
-    public partial class UserIndex
+    public partial class RecipeUserIndex
     {
         public int IdRecipe { get; set; }
         public Guid IdUser { get; set; }

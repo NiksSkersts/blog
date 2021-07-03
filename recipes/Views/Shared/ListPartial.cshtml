@@ -1,0 +1,8 @@
+@model IEnumerable<server.Models.Recipe>
+
+@foreach (var item in Model)
+{
+    <ul class="small-12 medium-4 large-3 grid-padding-y grid-padding-x">
+        <li class="filter-item @item.RecipeTagIndices.Where(p=>p.IdRecipe == p.IdRecipeNavigation.IdRecipe)"><a class="warning" href="Expanded/@item.IdRecipe">@item.Title</a></li>
+    </ul>
+}

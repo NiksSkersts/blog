@@ -2,12 +2,12 @@
 
 namespace server.Models
 {
-    public partial class TagIndex
+    public partial class RecipePictureIndex
     {
         public int IdRecipe { get; set; }
-        public int IdTag { get; set; }
+        public long IdPicture { get; set; }
 
+        public virtual Picture IdPictureNavigation { get; set; }
         public virtual Recipe IdRecipeNavigation { get; set; }
-        public virtual Tag IdTagNavigation { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
@@ -8,12 +9,12 @@ namespace server.Models
     {
         public Tag()
         {
-            TagIndices = new HashSet<TagIndex>();
+            RecipeTagIndices = new HashSet<RecipeTagIndex>();
         }
 
         public int IdTag { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<TagIndex> TagIndices { get; set; }
+        public virtual ICollection<RecipeTagIndex> RecipeTagIndices { get; set; }
     }
 }

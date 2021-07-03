@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
@@ -15,8 +16,7 @@ namespace server.Models
         public string Name { get; set; }
         public string BaseLink { get; set; }
         public long IdIcon { get; set; }
-
-        public virtual Icon IdIconNavigation { get; set; }
+        
         public virtual ICollection<SocialMediaRef> SocialMediaRefs { get; set; }
     }
 }

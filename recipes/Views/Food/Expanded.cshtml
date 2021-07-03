@@ -4,5 +4,16 @@
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
+<h1>@Model.Title</h1>
 
-<h2>title</h2>
+<p>Ingredienti:</p>
+<ul>
+ @foreach (var item in Model.IngredientIndices.Select(p=>p.IdRef).Distinct())
+ {
+     <p>@Model.IngredientIndices.Where(p=>p.IdRef==item).Select(p=>p.IdRefNavigation.Name):</p>
+                                  @foreach (var ing in Model.IngredientIndices.Where(p=>p.IdRef==item).Select(p=>p))
+                                  {
+                                      <li>@ing.IdIngredientNavigation.Name - @ing.Grams g</li>
+                                  }
+ }   
+</ul>

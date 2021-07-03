@@ -37,6 +37,9 @@ namespace recipes.Controllers
             var response = client.Execute(request);
             return JsonConvert.DeserializeObject<IEnumerable<Recipe>>(response.Content);
         }
+        //I could have just created an IEnum<Recipe> [var] and just assigned Get() to it and gotten my result by using .Single().
+        //Was a sin to waste perfectly good lines of code I added in server, so I am consuming another API.
+        // todo - check out local IEnum solution.
         public Recipe GetSingle(int id)
         {
             var client = new RestClient(_configuration["api_list_food"] + "/" + id) {Timeout = -1};

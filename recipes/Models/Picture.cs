@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
@@ -8,7 +9,6 @@ namespace server.Models
     {
         public Picture()
         {
-            Posts = new HashSet<Post>();
             RecipePictureIndices = new HashSet<RecipePictureIndex>();
             Users = new HashSet<User>();
         }
@@ -22,7 +22,6 @@ namespace server.Models
         public string SourceOriginal { get; set; }
 
         public virtual Category IdCategoryNavigation { get; set; }
-        public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<RecipePictureIndex> RecipePictureIndices { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
