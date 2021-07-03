@@ -53,10 +53,10 @@ namespace server.Controllers
                   new(ClaimTypes.Name, user.IdUser.ToString()),
                  new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
-           var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+           var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Connection.GetJwtSecret()));
           var token = new JwtSecurityToken(
-                    _configuration["JWT:ValidIssuer"],
-                   _configuration["JWT:ValidAudience"],
+                    Connection.GetJwtIssuer(),
+                    Connection.GetJwtIssuer(),
                     expires: DateTime.Now.AddHours(3),
                    claims: authClaims,
                   signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
