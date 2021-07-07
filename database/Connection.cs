@@ -7,6 +7,7 @@ namespace database
 {
     public static class Connection
     {
+        //Inits IConfig to get string values from appsettings.json and configures NPGSQL to use CS from appsettings.
         private static IConfigurationRoot _configuration;
 
         private static void Init()
