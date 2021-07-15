@@ -1,4 +1,22 @@
-﻿#warn{
+﻿html, body {font-size: 1rem;background-color: black;min-width: 280px;font-family: 'Comic Sans MS', fantasy;}
+.main-container {height: 100%;justify-content: center;}
+::-webkit-scrollbar {width: 0;/* Remove scrollbar space */background: transparent;/* make scrollbar invisible */}
+.button-group{margin-bottom: 0;}
+.top-bar{
+    margin: 1%;
+    border-color: black;
+    background-color: white;
+}
+#main-posts
+{
+    padding: 1rem;
+    margin: 1%;
+    border-color: black;
+    background-color: white;
+}
+
+
+#warn{
     bottom: 0;
     left: 0;
     background-color: white;
@@ -7,19 +25,12 @@
     z-index: 9;
     padding: 5px;
 }
-html, body {font-size: 1rem;background-color: black;min-width: 280px;font-family: 'Comic Sans MS', fantasy;}
-.main-container {height: 100%;justify-content: center;}
-::-webkit-scrollbar {width: 0;/* Remove scrollbar space */background: transparent;/* make scrollbar invisible */}
-.card{margin: 1%;padding: 1%;}
-.topic-list{list-style-type: none;background-color: blue; display: inline-block; padding: 1%;border-radius: 5px;}
-.topic-list a{color: white;}
-.work-list{list-style-type: none;}
 .expanded-view{
     height: 100vh;
     margin-left: auto;
     margin-right: auto;
-    color: white;
-    padding: 5%;
+    color: black;
+    padding: 1%;
 }
 .cv-button{
     background-color: black;
@@ -30,9 +41,6 @@ html, body {font-size: 1rem;background-color: black;min-width: 280px;font-family
 .cv-button :hover{
     background-color: white;
 }
-.arrow-down{
-    vertical-align: bottom;
-}
 .tooltip-span{border-bottom: none;}
 .expanded-view iframe{
     position: absolute;
@@ -41,38 +49,4 @@ html, body {font-size: 1rem;background-color: black;min-width: 280px;font-family
     transform: translate(-50%,-50%);
     height: 100%;
     width: 100%;
-}
-.expanded-pic{
-    width: 100%;
-}
-.expanded-view li { padding: 0; }
-.expanded-view li a { margin: 0; display: block; width: 100%; height: 100%; }
-#to-gallery{
-    text-align: center;
-    bottom: 0;
-    left: 0;
-    background-color: white;
-    color: black;
-    position: fixed;
-    z-index: 9;
-    padding: 5px;
-}
-.aboutme-wrapper {
-    color: black;
-    background-color: snow;
-    padding: 2rem;
-    margin: auto;
-    width: 100%;
-}
-.aboutme-image {max-width: 400px;}
-.aboutme-wrapper .aboutme-image, .aboutme-wrapper .aboutme-text {padding: 1rem;}
-.aboutme-wrapper .separator-left {text-align: left;}
-.aboutme-wrapper .separator-left::before, .separator-left::after {display: table;content: ' ';flex-basis: 0;-ms-flex-order: 1;order: 1;}
-.aboutme-wrapper .separator-left::after {clear: both;}
-.aboutme-wrapper .separator-left::after {
-    position: relative;
-    width: 5rem;
-    border-bottom: 0.125rem solid #1779ba;
-    margin: 0.3rem auto 0;
-    margin-left: 0;
 }
