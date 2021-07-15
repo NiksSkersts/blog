@@ -47,12 +47,6 @@ namespace server.Controllers
             GetSingle(i);
             return View(_expanded);
         }
-        [Route("ExpandedGallery/{i:int?}")]
-        public ViewResult ExpandedGallery(int i)
-        {
-            var picture = _context.Pictures.Single(p => p.IdPicture == i);
-            return View(picture);
-        }
         [Route("Index/{i:int?}")]
         [Route("Index/{i:int?}/{j:int}")]
         public ViewResult Index(int i, int j)

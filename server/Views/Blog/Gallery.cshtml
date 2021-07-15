@@ -1,5 +1,11 @@
 ﻿@model IEnumerable<database.Picture>
-@foreach (var picture in Model.Where(p=>p.Published))
-{
-    <a class="card small-12 medium-6 large-6" href="~/Blog/ExpandedGallery/@picture.IdPicture"><img src="@picture.SourcePreview" alt="@picture.AlternativeText"></a>
-}
+<div class="row expanded">
+    @foreach ( var item in Model.Where(p=>p.Published))
+    {
+        <div class="medium-6 large-3 small-12">
+            <a href="@item.SourceOriginal">
+                <img src="@item.SourcePreview" alt="Photo by @item.Users.Select(p=>p.Name)" />
+            </a>
+        </div>
+    }
+</div>
