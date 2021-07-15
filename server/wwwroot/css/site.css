@@ -25,13 +25,6 @@
     z-index: 9;
     padding: 5px;
 }
-.expanded-view{
-    height: 100vh;
-    margin-left: auto;
-    margin-right: auto;
-    color: black;
-    padding: 1%;
-}
 .cv-button{
     background-color: black;
     color: white;
