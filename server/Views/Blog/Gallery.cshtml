@@ -3,7 +3,7 @@
     ViewBag.Title = "Life & Tech";
     Layout = "_Layout";
 }
-<div class="card">
+<div id="main-posts" class="card small-12">
     @Html.Raw(Model.Single(p=>p.IdPicture==33).AlternativeText)
 </div>
 <div class="row expanded grid-x small-12">
