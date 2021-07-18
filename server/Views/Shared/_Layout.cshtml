@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="~/css/site.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
+<header class="top-bar grid-x">
+    <h5 class="top-bar-title text-left small-6 grid-padding-x">Life &amp; Tech</h5>
+    <div class="button-group small-6 align-center">
+        <a href="~/About" class="grid-padding-y"><button class="clear button">About</button></a>
+        <a href="~/" class="grid-padding-y"><button class="clear button">Blog</button></a>
+        <a href="~/Gallery" class="grid-padding-y"><button class="clear button">Gallery</button></a>
+    </div>
+</header>
 <body>
 <main class="grid-x main-container">
     <div id="warn"><text>[Aktīvā izstrādē]</text></div>
@@ -18,7 +26,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.6.3/js/foundation.min.js" integrity="sha512-9cXmvmK1gIDw3Tol6Xg/1SUls/CvBMgedu1aDjT519sQzy7jk+LoezyQqlzClW2LgXww4xEyuqtofg7PtWteLQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>$(document).foundation();</script>
 <script src="~/js/vendor.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
 <script src="https://kit.fontawesome.com/69f2f77242.js" crossorigin="anonymous"></script>
 @await RenderSectionAsync("Scripts", false)
 </body>

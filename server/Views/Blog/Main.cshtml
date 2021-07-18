@@ -1,11 +1,22 @@
-﻿@model IEnumerable<database.Post>
-<div class="card small-12">@{await Html.RenderPartialAsync("AboutMe", Model.Single(p=>p.IdCat==2));}</div>
-<div id="down" class="card small-12 medium-5 large-5">@{ await Html.RenderPartialAsync("Work", Model.Where(post=>post.Published).OrderByDescending(p=>p.Date).Take(5));}</div>
-<div class="card small-12 medium-5 large-5">@{ await Html.RenderPartialAsync("Topics", Model.Where(post=>post.Published).Select(p=>p));}</div>
-@if (Model.Where(p => p.IdPicture != null).Select(p => p.IdPictureNavigation.SourcePreview).Any())
-{
-    <div class="card small-12" >
-        @{ await Html.RenderPartialAsync("PostPreview", Model.Where(p => p.IdPicture != null).Take(4)); }
-    </div>
-    <div id="to-gallery" class="card float-center">@{ await Html.RenderPartialAsync("ToGallery");}</div>
+@using System.Linq
+@model IEnumerable<database.Post>
+
+@{
+    ViewBag.Title = "Life & Tech";
+    Layout = "_Layout";
 }
+<div id="main-posts" class="card">
+    <p>@Model.Single(id=>id.IdPost==16).Description</p>
+    <p>@Html.Raw(Model.Single(id=>id.IdPost==16).Body)</p>
+    <h3>Latest posts:</h3>
+    <ul>
+        @foreach (var post in Model.Where(p=>p.Published).OrderByDescending(post => post.Date).Take(3))
+        {
+            <li>
+                <a href="@post.IdPost">@Html.Raw(post.Title)</a>
+                <p>@Html.Raw(post.Description)</p>
+            </li>
+        }
+    </ul>
+    <a href="~/Index"><p> More stuff can be found here.</p></a>
+</div>

@@ -9,25 +9,23 @@ namespace server.Controllers
     public class Blog : Controller
     {
         #region Declare
-        private object _posts;
-        private object _expanded;
         private readonly mainContext _context;
         #endregion
         #region init
         public Blog(mainContext context) => _context = context;
         #endregion
         #region Method
-        private void Init()
+        private object Init()
         {
-            _posts = _context.Posts
+             return _context.Posts
                 .Include(p => p.IdUserNavigation)
                 .ThenInclude(p => p.IdPictureNavigation)
                 .Include(p => p.IdPictureNavigation)
                 .Include(p => p.IdCatNavigation);
         }
-        private void GetSingle(int i)
+        private object GetSingle(int i)
         {
-            _expanded = _context.Posts
+            return _context.Posts
                 .Include(p => p.IdUserNavigation)
                 .ThenInclude(p => p.IdPictureNavigation)
                 .Include(p => p.IdPictureNavigation)
@@ -38,42 +36,28 @@ namespace server.Controllers
         [Route("/")]
         public ViewResult Main()
         {
-            Init();
-            return View(_posts);
+            return View(Init());
         }
-        [Route("Expanded/{i:int?}")]
+        [Route("/{i:int?}")]
         public ViewResult Expanded(int i)
         {
-            GetSingle(i);
-            return View(_expanded);
+            return View(GetSingle(i));
         }
-        [Route("Index/{i:int?}")]
-        [Route("Index/{i:int?}/{j:int}")]
-        public ViewResult Index(int i, int j)
+        [Route("/Index")]
+        public ViewResult Index()
         {
-            switch (i)
-            {
-                case 0:
-                    Init();
-                    break;
-                case 1:
-                    _posts = _context.Posts
-                        .Include(p => p.IdUserNavigation)
-                        .ThenInclude(p => p.IdPictureNavigation)
-                        .Include(p => p.IdPictureNavigation)
-                        .Include(p => p.IdCatNavigation)
-                        .Where(p => p.IdCat == j);
-                    break;
-            }
-
-            return View(_posts);
+            return View(Init());
         }
-        [Route("Gallery")]
+        [Route("/Gallery")]
         public ViewResult Gallery()
         {
-            var pictures = _context.Pictures.Where(p => p.Published).Select(p => p);
             Init();
-            return View(pictures);
+            return View(_context.Pictures.Select(p => p));
+        }
+        [Route("/About")]
+        public ViewResult About()
+        {
+            return View(GetSingle(11));
         }
         #endregion
     }

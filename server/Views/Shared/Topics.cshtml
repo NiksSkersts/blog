@@ -1,7 +1,0 @@
-﻿@model IEnumerable<database.Post>
-<ul content="Meklēt pēc tēmas:">
-@foreach (var topic in Model.GroupBy(p=>p.IdCat).Select(p=>p.First()))
-{
-    <li class="topic-list"><a href="Blog/Index/1/@topic.IdCatNavigation.IdCategory"><span class="tooltip-span" data-tooltip tabindex="1" title="@topic.IdCatNavigation.Description">@topic.IdCatNavigation.Name</span></a></li>
-}
-</ul>

@@ -1,8 +1,15 @@
 ﻿@model IEnumerable<database.Picture>
-<div class="row expanded">
+@{
+    ViewBag.Title = "Life & Tech";
+    Layout = "_Layout";
+}
+<div id="main-posts" class="card small-12">
+    @Html.Raw(Model.Single(p=>p.IdPicture==33).AlternativeText)
+</div>
+<div class="row expanded grid-x small-12">
     @foreach ( var item in Model.Where(p=>p.Published))
     {
-        <div class="medium-6 large-3 small-12">
+        <div class="card grid-padding-y grid-padding-x align-center-middle medium-6 large-3 small-12">
             <a href="@item.SourceOriginal">
                 <img src="@item.SourcePreview" alt="Photo by @item.Users.Select(p=>p.Name)" />
             </a>

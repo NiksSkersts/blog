@@ -1,0 +1,14 @@
+@model database.Post
+
+@{
+    ViewBag.Title = "Life & Tech";
+    Layout = "_Layout";
+}
+
+<div id="main-posts" class="card">
+    <h5 class="align-self-middle">@Html.Raw(Model.Title)</h5>
+    @Html.Raw(Model.Description)
+</div>
+<div id="main-posts" class="card">
+    @Html.Raw(Model.Body)
+</div>
