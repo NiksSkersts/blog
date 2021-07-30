@@ -3,3 +3,7 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+database/.idea/database.iml
+database/.idea/dataSources.xml
+database/.idea/modules.xml
+database/.idea/vcs.xml
