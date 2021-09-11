@@ -11,4 +11,3 @@ Database creation file:
 [db_create.sql](../docs/database/db_create.sql)
 
 Disclaimer: login_data is meant to provide basic login capability.
-PS: Todo list can be found at [todo.md](todo.md)
