@@ -1,16 +1,18 @@
 @using System.Linq
+@using System.Net
+@using Microsoft.AspNetCore.Http
+@using RestSharp
 @model IEnumerable<database.Post>
-
 @{
     ViewBag.Title = "Life & Tech";
     Layout = "_Layout";
 }
 <div id="main-posts" class="card">
-    <p>@Model.Single(id=>id.IdPost==16).Description</p>
-    <p>@Html.Raw(Model.Single(id=>id.IdPost==16).Body)</p>
+    <p>@Model.Single(id => id.TranslationTo == 16 && id.Language==ViewBag.Language).Description</p>
+    <p>@Html.Raw(Model.Single(id => id.TranslationTo == 16 && id.Language==ViewBag.Language).Body)</p>
     <h3>Latest posts:</h3>
     <ul>
-        @foreach (var post in Model.Where(p=>p.Published).OrderByDescending(post => post.Date).Take(3))
+        @foreach (var post in Model.Where(p => p.Published).OrderByDescending(post => post.Date).Take(3))
         {
             <li>
                 <a href="@post.IdPost">@Html.Raw(post.Title)</a>
@@ -18,5 +20,6 @@
             </li>
         }
     </ul>
-    <a href="~/Index"><p> More stuff can be found here.</p></a>
+    <a href="~/Index">
+        <p> More stuff can be found here.</p></a>
 </div>

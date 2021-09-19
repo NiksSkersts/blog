@@ -1,4 +1,34 @@
-﻿<!DOCTYPE html>
+﻿@using server.Controllers
+@using System.Net
+@using Microsoft.AspNetCore.Mvc.RazorPages
+@using RestSharp
+<!DOCTYPE html>
+@{
+    ViewBag.Language = GetLanguage();
+}
+@functions {
+    readonly RestClient client = new RestClient("https://localhost:5001/Blog/API/Lang");
+    private int GetLanguage()
+    {
+        client.Timeout = -1;
+        var request = new RestRequest(Method.GET);
+        var response = client.Execute(request);
+        Console.WriteLine(ViewBag.Language);
+        return response.Content == "" ? 1 : Convert.ToInt32(response.Content);
+    }
+
+    private void SetLanguage(int id)
+    {
+        client.Timeout = -1;
+        var request = new RestRequest(Method.POST);
+        request.AddHeader("Content-Type", "application/json");
+        var body = Json.Serialize(id);
+        request.AddParameter("application/json", body,  ParameterType.RequestBody);
+        client.Execute(request);
+        Console.WriteLine(ViewBag.Language);
+    }
+
+}
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -9,11 +39,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 <header class="top-bar grid-x">
-    <h5 class="top-bar-title text-left small-6 grid-padding-x">Life &amp; Tech</h5>
-    <div class="button-group small-6 align-center">
+    <div class="button-group small-12 align-center">
         <a href="~/About" class="grid-padding-y"><button class="clear button">About</button></a>
         <a href="~/" class="grid-padding-y"><button class="clear button">Blog</button></a>
         <a href="~/Gallery" class="grid-padding-y"><button class="clear button">Gallery</button></a>
+        <div class="button-group small-12 align-center">
+            <a class="clear button" onclick="@{ SetLanguage(2);} location.reload()">LV</a>
+            <a class="clear button" onclick="@{ SetLanguage(1); } location.reload()">ENG</a>
+        </div>
     </div>
 </header>
 <body>

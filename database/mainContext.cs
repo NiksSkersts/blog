@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
-
 
 #nullable disable
 
@@ -27,6 +24,7 @@ namespace database
         public virtual DbSet<IngredientCategory> IngredientCategories { get; set; }
         public virtual DbSet<IngredientIndex> IngredientIndices { get; set; }
         public virtual DbSet<IngredientRef> IngredientRefs { get; set; }
+        public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<Picture> Pictures { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<Quote> Quotes { get; set; }
@@ -278,6 +276,23 @@ namespace database
                     .HasColumnName("name");
             });
 
+            modelBuilder.Entity<Language>(entity =>
+            {
+                entity.ToTable("languages", "Main");
+
+                entity.Property(e => e.LanguageId).HasColumnName("language_id");
+
+                entity.Property(e => e.FullName)
+                    .IsRequired()
+                    .HasColumnType("character varying")
+                    .HasColumnName("full_name");
+
+                entity.Property(e => e.ShortName)
+                    .IsRequired()
+                    .HasColumnType("character varying")
+                    .HasColumnName("short_name");
+            });
+
             modelBuilder.Entity<Picture>(entity =>
             {
                 entity.HasKey(e => e.IdPicture)
@@ -334,18 +349,23 @@ namespace database
 
                 entity.Property(e => e.IdPicture)
                     .HasColumnName("id_picture")
-                    .HasDefaultValueSql("0")
                     .HasComment("Mainly for Hero/Header picture");
 
                 entity.Property(e => e.IdUser)
                     .HasColumnName("id_user")
                     .HasComment("Author. Author pic should be added to Author table.");
 
+                entity.Property(e => e.Language).HasColumnName("language");
+
                 entity.Property(e => e.Published).HasColumnName("published");
 
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasColumnName("title");
+
+                entity.Property(e => e.TranslationTo)
+                    .HasColumnName("translation_to")
+                    .HasComment("if entry = translation to already existing post then link to id_post else leave NULL");
 
                 entity.HasOne(d => d.IdCatNavigation)
                     .WithMany(p => p.Posts)
@@ -362,6 +382,16 @@ namespace database
                     .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.IdUser)
                     .HasConstraintName("to_auth");
+
+                entity.HasOne(d => d.LanguageNavigation)
+                    .WithMany(p => p.Posts)
+                    .HasForeignKey(d => d.Language)
+                    .HasConstraintName("to_lang");
+
+                entity.HasOne(d => d.TranslationToNavigation)
+                    .WithMany(p => p.InverseTranslationToNavigation)
+                    .HasForeignKey(d => d.TranslationTo)
+                    .HasConstraintName("recursive_for_translations");
             });
 
             modelBuilder.Entity<Quote>(entity =>
