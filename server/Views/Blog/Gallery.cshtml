@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Life & Tech";
     Layout = "_Layout";
+    //todo implement lazy loading!
 }
 <div id="main-posts" class="card small-12">
     @Html.Raw(Model.Single(p=>p.IdPicture==33).AlternativeText)
